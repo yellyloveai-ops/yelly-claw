@@ -1,6 +1,6 @@
 'use strict';
 
-// v2/settings.js — YellyClaw browser extension configuration
+// setting/settings.js — YellyClaw browser extension configuration
 // Includes yellyclawUrl for connecting to the local YellyClaw server
 
 module.exports = {

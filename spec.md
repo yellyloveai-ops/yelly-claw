@@ -166,7 +166,7 @@ context/
  sandbox-control.md → Workspace isolation guidelines
  system-prompt.md   → Base system prompt for sessions
  trust-and-verify-policy.md → Tool trust policy
-v2/
+setting/
  preapproval-rules.json  → URL-pattern → tool preapproval rules
  settings.js             → yellyclawUrl config (default http://localhost:2026)
 ```
@@ -367,7 +367,7 @@ Persisted keys: `id, name, prompt, agentSpec, interval, enabled, createdAt, next
 - **CSRF**: Single per-process token in `X-YellyClaw-Token` header; required for all POST/DELETE
 - **Rate limit**: 100 requests/minute per origin (in-memory counter, reset every 60s)
 - **Host validation**: Only `localhost` / `127.0.0.1` accepted
-- **Tool preapproval**: `v2/preapproval-rules.json` maps URL patterns + prompt keywords → allowed tools; never use `--dangerously-skip-permissions`
+- **Tool preapproval**: `setting/preapproval-rules.json` maps URL patterns + prompt keywords → allowed tools; never use `--dangerously-skip-permissions`
 - **Child session limit**: Max 5 spawned children per parent session
 
 
@@ -465,7 +465,7 @@ claude -p [--dangerously-skip-permissions | --allowedTools <list>] [--agent <nam
 ```
 prompt text
  → extractKeywords(prompt)          // split on whitespace, filter len>2
- → getPreapprovedTools(url, kws)    // match v2/preapproval-rules.json
+ → getPreapprovedTools(url, kws)    // match setting/preapproval-rules.json
  → baseTools (always trusted):
      shell
      read_file
@@ -1122,8 +1122,8 @@ On `/stop` and `/update`: active sessions are killed (SIGTERM) and saved to hist
 5. `manager.js` — Server Manager UI (depends on shared.js)
 6. `client.js` — re-export shim
 7. `context/self-spawn.md` — update env var names to `YELLYCLAW_*`
-8. `v2/settings.js` — add `yellyclawUrl` config key
-9. `v2/preapproval-rules.json` — verify tool rules still apply
+8. `setting/settings.js` — add `yellyclawUrl` config key
+9. `setting/preapproval-rules.json` — verify tool rules still apply
 10. Tests: unit tests for session model, route handlers, schedule tick, CSRF validation
 11. Manual smoke test: `node src/server.js` → `curl http://localhost:2026/health`
 
